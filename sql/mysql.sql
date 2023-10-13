@@ -1,0 +1,37 @@
+DROP TABLE IF EXISTS `user`;
+
+
+CREATE TABLE `user`
+(
+`account` VARCHAR(18) NOT NULL COMMENT '账号' PRIMARY KEY UNIQUE,
+`password` VARCHAR(18) NOT NULL COMMENT '密码',
+`deadline` DATETIME COMMENT '账号到期时间',
+`charged_amount` INT(11) DEFAULT '0' COMMENT '已充金额',
+`grade` INT(11) DEFAULT '0' COMMENT '用户等级',
+`times` INT(11) DEFAULT '5' COMMENT '问答次数'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+ROW_FORMAT = DYNAMIC COMMENT = '用户管理表';
+
+INSERT  INTO `user`(`account`,`password`,`deadline`,`charged_amount`,`grade`,`times`) VALUES ('2630559606@qq.com','123456','2023-04-13 10:04:35',0,0,5);
+
+
+DROP TABLE IF EXISTS `commentDetail`;
+DROP TABLE IF EXISTS `comment`;
+
+
+CREATE TABLE `comment` (
+`id` BIGINT PRIMARY KEY NOT NULL COMMENT '随机ID',
+`mail` VARCHAR(30) NOT NULL COMMENT '邮箱',
+`name` VARCHAR(100) NOT NULL COMMENT '名称',
+`type` VARCHAR(300) DEFAULT NULL COMMENT '问答类型'
+) ENGINE=INNODB DEFAULT CHARSET=utf8 
+ROW_FORMAT = DYNAMIC COMMENT = '用户问答表';
+
+CREATE TABLE `commentdetail` (
+`id` BIGINT NOT NULL,
+`usercomment` TEXT COMMENT '用户问题',
+`gptcomment` TEXT COMMENT 'gpt答案',
+FOREIGN KEY (id) REFERENCES `comment`(id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 
+ROW_FORMAT = DYNAMIC COMMENT = '问答详细表';
+
